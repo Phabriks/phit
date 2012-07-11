@@ -50,9 +50,11 @@ class Init extends AbstractTask
         $this->output->writeln("<info>Start initializing project</info>\n");
         $projectConf = array();
 
-        $projectPath = $this->dialog->ask(
+        $projectPath = $this->dialog->askAndValidate(
             $this->output,
             "<question>Where do you want to initialize your project (default: current location)?</question>\n",
+            'Phit\Tasks\Project\Init::validateProjectInstallPath',
+            false,
             getcwd()
         );
 
@@ -122,9 +124,9 @@ class Init extends AbstractTask
 
             $this->projectConf['vcs']['repositories'] = array();
             $vcsWriteUrl = $this->dialog->ask(
-                    $this->output,
-                    "<question>What will be the write url of your project's repository ?</question>\n",
-                    ''
+                $this->output,
+                "<question>What will be the write url of your project's repository ?</question>\n",
+                ''
             );
             $this->projectConf['vcs']['repositories']['write'] = $vcsWriteUrl;
 
@@ -224,6 +226,23 @@ class Init extends AbstractTask
                     'srcpath'    => ''
             )
         );
+    }
+
+    /**
+     * Validate project installation path value
+     *
+     * @param string $value project installation path
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public static function validateProjectInstallPath($value)
+    {
+        if (!is_dir($value)) {
+            throw new \Exception("Invalid installation path: directory doesn't exist");
+        } else {
+            return $value;
+        }
     }
 
     /**
