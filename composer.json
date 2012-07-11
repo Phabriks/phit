@@ -1,0 +1,17 @@
+{
+    "name": "phabriks/phit",
+    "require": {
+        "symfony/console": "dev-master",
+        "symfony/filesystem": "dev-master",
+        "justinrainbow/json-schema": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Phit": "src/" }
+    },
+    "authors": [
+        {
+            "name": "guillaume maïssa",
+            "email": "guillaume.maissa@phabriks.com"
+        }
+    ]
+}

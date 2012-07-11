@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+if (file_exists('Phit/vendor/autoload.php')) {
+    require 'Phit/vendor/autoload.php';
+} else {
+    require __DIR__ . '/../vendor/autoload.php';
+}
+use Phit\Phit;
+
+$phit = Phit::getInstance();
+$phit->run(); 

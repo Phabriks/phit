@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "version": {
+      "type": "string",
+      "required": true
+    },
+    "model": {
+      "type": "string",
+      "required": true
+    },
+    "vcs": {
+      "type": "object",
+      "optional": true,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["svn"]
+        },
+        "repositories": {
+          "type": "object",
+          "properties": {
+            "write": {
+              "type": "string"
+            },
+            "read": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "optional": true,
+      "properties": {
+        "steps": {
+          "type": "array",
+          "required": true,
+          "items": {
+            "enum": [
+              "checkstyle",
+              "messdetection",
+              "copypastedetection",
+              "phpunit"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
