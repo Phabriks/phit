@@ -39,7 +39,7 @@ class Validate extends AbstractTask
 
     protected function runTask()
     {
-        $this->output->writeln('<info>Start validating phit conf file</info>');
+        $this->output->writeln("<info>Start validating phit conf file</info>\n");
         $projectConf = $this->phitInstance->projectConf;
         $validator = new Validator();
         $validator->check(
@@ -48,12 +48,13 @@ class Validate extends AbstractTask
         );
 
         if ($validator->isValid()) {
-            $this->output->writeln("<info>The supplied JSON validates against the schema.</info>\n");
+            $this->output->writeln("<success>\nThe supplied JSON validates against the schema.\n</success>");
         } else {
-            $this->output->writeln("<info>JSON does not validate. Violations:</info>\n");
+            $errorMsg = "\nJSON does not validate. Violations:\n";
             foreach ($validator->getErrors() as $error) {
-                $this->output->writeln("<info>" . sprintf("[%s] %s\n",$error['property'], $error['message']) . "</info>\n");
+                $errorMsg .= sprintf("[%s] %s",$error['property'], $error['message']) . "\n";
             }
+            $this->output->writeln("<error>". $errorMsg ."</error>");
         }
     }
 }
