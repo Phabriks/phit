@@ -239,10 +239,10 @@ class Phit
         );
         while ($iterator->valid()) {
             if (!is_dir($iterator->key())) {
-                $class = $namespace . '\\Models\\'
-                       . preg_replace($patterns, $replacements, $iterator->getSubPathName());
-                $id    = $class::$modelId;
-                $models[$id] = $class;
+                $class            = $namespace . '\\Models\\'
+                                  . preg_replace($patterns, $replacements, $iterator->getSubPathName());
+                $modelId          = $class::$modelId;
+                $models[$modelId] = $class;
             }
             $iterator->next();
         }

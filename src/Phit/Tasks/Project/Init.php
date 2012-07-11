@@ -58,7 +58,6 @@ class Init extends AbstractTask
     protected function runTask()
     {
         $this->output->writeln("<info>Start initializing project</info>\n");
-        $projectConf = array();
 
         $projectPath = $this->dialog->askAndValidate(
             $this->output,
@@ -73,12 +72,12 @@ class Init extends AbstractTask
         $this->setBuildInfo();
         $this->setProfilesInfo();
 
-        $json = $this->formatJson(json_encode($this->projectConf));
-        $fp   = fopen($projectPath . '/' . Phit::PROJECT_CONF_FILENAME, 'w');
-        fwrite($fp, $json);
-        fclose($fp);
+        $json         = $this->formatJson(json_encode($this->projectConf));
+        $phitConfFile = fopen($projectPath . '/' . Phit::PROJECT_CONF_FILENAME, 'w');
+        fwrite($phitConfFile, $json);
+        fclose($phitConfFile);
 
-        $this->output->writeln("Project initialized");
+        $this->output->writeln("<success>\nProject initialized\n</success>");
     }
 
     /**
