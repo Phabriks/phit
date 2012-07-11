@@ -51,6 +51,19 @@
           }
         }
       }
+    },
+    "profiles": {
+      "type": "object",
+      "required": "true",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "suffix": { "type": "string" },
+          "connection": { "type":"string", "optional": false },
+          "srcpath": { "type":"string", "optional": true }
+        }
+      }
     }
   }
 }
