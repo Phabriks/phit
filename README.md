@@ -1,4 +1,4 @@
 phit
 ====
 
-PHp Industrialisation Toll
+PHp Industrialisation Tool
