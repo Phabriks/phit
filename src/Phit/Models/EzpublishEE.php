@@ -1,12 +1,12 @@
 <?php
 /**
- * Phit core classes
+ * Phit Models classes
  *
  * PHP VERSION 5
  *
  * @category  Phit
- * @package   Phit.core
- * @author    Guillaume Ma�ssa <guillaume.maissa@phabriks.fr>
+ * @package   Phit.Models
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
  * @copyright 2012 Phabriks
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @version   SVN: $Id:$
@@ -16,6 +16,14 @@ namespace Phit\Models;
 
 use Phit\AbstractModel;
 
+/**
+ * Phit eZpublish Enterprise Edition Model class
+ *
+ * @category  Phit
+ * @package   Phit.Models
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ */
 class EzpublishEE extends AbstractModel
 {
     /**
@@ -38,3 +46,4 @@ class EzpublishEE extends AbstractModel
         'src/extension'
     );
 }
+

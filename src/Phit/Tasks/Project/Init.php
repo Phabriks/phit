@@ -1,12 +1,12 @@
 <?php
 /**
- * Phit core classes
+ * Phit Tasks classes
  *
  * PHP VERSION 5
  *
  * @category  Phit
- * @package   Phit.core
- * @author    Guillaume Maïssa <guillaume.maissa@phabriks.fr>
+ * @package   Phit.Tasks
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
  * @copyright 2012 Phabriks
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @version   SVN: $Id:$
@@ -25,12 +25,22 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
+/**
+ * Project Initialization Task class
+ *
+ * @category  Phit
+ * @package   Phit.Tasks
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ */
 class Init extends AbstractTask
 {
     protected $projectConf;
 
     /**
-     * {@inheritdoc}
+     * Configures the current command.
+     *
+     * @return void
      */
     protected function configure()
     {
@@ -41,7 +51,7 @@ class Init extends AbstractTask
     }
 
     /**
-     *
+     * Run the current command
      *
      * @return void
      */
@@ -63,7 +73,7 @@ class Init extends AbstractTask
         $this->setBuildInfo();
         $this->setProfilesInfo();
 
-        $json = $this->json_format(json_encode($this->projectConf));
+        $json = $this->formatJson(json_encode($this->projectConf));
         $fp   = fopen($projectPath . '/' . Phit::PROJECT_CONF_FILENAME, 'w');
         fwrite($fp, $json);
         fclose($fp);
@@ -89,7 +99,8 @@ class Init extends AbstractTask
         $this->projectConf['version'] = '0.0.1-snapshot';
 
         $projectModels = array_keys($this->phitInstance->models);
-        $projectModelQuestion = "<question>What kind of project do you want to initialize between the list :</question>\n";
+        $projectModelQuestion = "<question>What kind of project do you want to initialize"
+                              . " between the list :</question>\n";
         foreach ($projectModels as $model) {
             $projectModelQuestion .= "<info>- " . $model . "</info>\n";
         }
@@ -136,22 +147,6 @@ class Init extends AbstractTask
                 $vcsWriteUrl
             );
             $this->projectConf['vcs']['repositories']['read'] = $vcsReadUrl;
-
-//             $tagType = $this->dialog->askAndValidate(
-//                 $this->output,
-//                 "<question>What type of tag names do you want to use :</question>\n<info>- version\n- datetime</info>\n",
-//                 'Phit\Tasks\Project\Init::validateTagType'
-//             );
-//             $this->projectConf['vcs']['tagType'] = $tagType;
-
-//             $tagFormat = $this->dialog->askAndValidate(
-//                 $this->output,
-//                 "<question>What format do you want to use for your tag names: [release-##" . strtoupper($tagType) . "##]</question>\n",
-//                 'Phit\Tasks\Project\Init::validate' . ucfirst($tagType) . 'TagFormat',
-//                 false,
-//                 'release-##' . strtoupper($tagType) . '##'
-//             );
-//             $this->projectConf['vcs']['tagFormat'] = $tagFormat;
         }
     }
 
@@ -339,3 +334,4 @@ class Init extends AbstractTask
         }
     }
 }
+

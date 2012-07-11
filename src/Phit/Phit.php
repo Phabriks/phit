@@ -1,12 +1,12 @@
 <?php
 /**
- * Phit core classes
+ * Phit Core classes
  *
  * PHP VERSION 5
  *
  * @category  Phit
  * @package   Phit.Core
- * @author    Guillaume Maïssa <guillaume.maissa@phabriks.fr>
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
  * @copyright 2012 Phabriks
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @version   SVN: $Id:$
@@ -17,6 +17,14 @@ namespace Phit;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * Phit Core class
+ *
+ * @category  Phit
+ * @package   Phit.Core
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ */
 class Phit
 {
     /**
@@ -25,6 +33,10 @@ class Phit
      */
     const PROJECT_CONF_FILENAME = "phit.json";
 
+    /**
+     * Phit root directory
+     * @var string $phitRootDir
+     */
     protected $phitRootDir = false;
 
     /**
@@ -51,8 +63,16 @@ class Phit
      */
     private $application = false;
 
+    /**
+     * List of available tasks
+     * @var array $tasks
+     */
     public $tasks = array();
 
+    /**
+     * List of available models
+     * @var array $models
+     */
     public $models = array();
 
     /**
@@ -118,7 +138,7 @@ class Phit
         $confFilePath = getcwd() . '/' . self::PROJECT_CONF_FILENAME;
 
         if ($filesystem->exists(array($confFilePath))) {
-            $projectConf        = json_decode(file_get_contents($confFilePath), TRUE);
+            $projectConf        = json_decode(file_get_contents($confFilePath), true);
             $projectModel       = $projectConf['model'];
             $projectModelClass  = $this->models[$projectModel];
             $this->projectModel = new $projectModelClass;
@@ -126,6 +146,11 @@ class Phit
         }
     }
 
+    /**
+     * Retrieve available tasks and models from the core and the bundles
+     *
+     * @return void
+     */
     private function getAvailableTools()
     {
         $tasks        = array();
@@ -169,6 +194,15 @@ class Phit
         $this->models = $models;
     }
 
+    /**
+     * Retrieve available tasks
+     *
+     * @param string $dir       core / bundle classes directory
+     * @param string $namespace core / bundle classes namespace
+     * @param array  &$tasks    available tasks list
+     *
+     * @return void
+     */
     protected function getAvailableTasks($dir, $namespace, &$tasks)
     {
         $patterns     = array('/\//', '/\.php/');
@@ -186,6 +220,15 @@ class Phit
         }
     }
 
+    /**
+     * Retrieve available Models
+     *
+     * @param string $dir       core / bundle classes directory
+     * @param string $namespace core / bundle classes namespace
+     * @param array  &$models   available models list
+     *
+     * @return void
+     */
     protected function getAvailableModels($dir, $namespace, &$models)
     {
         $patterns     = array('/\//', '/\.php/');
@@ -205,3 +248,4 @@ class Phit
         }
     }
 }
+

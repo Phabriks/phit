@@ -1,12 +1,12 @@
 <?php
 /**
- * Phit core classes
+ * Phit Tasks classes
  *
  * PHP VERSION 5
  *
  * @category  Phit
- * @package   Phit.Core
- * @author    Guillaume Maïssa <guillaume.maissa@phabriks.fr>
+ * @package   Phit.Tasks
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
  * @copyright 2012 Phabriks
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @version   SVN: $Id:$
@@ -24,10 +24,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use JsonSchema\Validator;
 
+/**
+ * Validate Phit configuration file Task class
+ *
+ * @category  Phit
+ * @package   Phit.Tasks
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ */
 class Validate extends AbstractTask
 {
     /**
-     * {@inheritdoc}
+     * Configures the current command.
+     *
+     * @return void
      */
     protected function configure()
     {
@@ -37,6 +47,11 @@ class Validate extends AbstractTask
         ;
     }
 
+    /**
+     * Run the current command
+     *
+     * @return void
+     */
     protected function runTask()
     {
         $this->output->writeln("<info>Start validating phit conf file</info>\n");
@@ -52,9 +67,10 @@ class Validate extends AbstractTask
         } else {
             $errorMsg = "\nJSON does not validate. Violations:\n";
             foreach ($validator->getErrors() as $error) {
-                $errorMsg .= sprintf("[%s] %s",$error['property'], $error['message']) . "\n";
+                $errorMsg .= sprintf("[%s] %s", $error['property'], $error['message']) . "\n";
             }
             $this->output->writeln("<error>". $errorMsg ."</error>");
         }
     }
 }
+

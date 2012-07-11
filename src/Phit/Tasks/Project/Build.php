@@ -1,12 +1,12 @@
 <?php
 /**
- * Phit core classes
+ * Phit Tasks classes
  *
  * PHP VERSION 5
  *
  * @category  Phit
- * @package   Phit.Core
- * @author    Guillaume Maïssa <guillaume.maissa@phabriks.fr>
+ * @package   Phit.Tasks
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
  * @copyright 2012 Phabriks
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @version   SVN: $Id:$
@@ -23,10 +23,20 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
+/**
+ * Build Project Task class
+ *
+ * @category  Phit
+ * @package   Phit.Tasks
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ */
 class Build extends AbstractTask
 {
     /**
-     * {@inheritdoc}
+     * Configures the current command.
+     *
+     * @return void
      */
     protected function configure()
     {
@@ -37,6 +47,11 @@ class Build extends AbstractTask
         ;
     }
 
+    /**
+     * Run the current command
+     *
+     * @return void
+     */
     protected function runTask()
     {
         $this->output->writeln('<info>Start building project</info>');
@@ -51,3 +66,4 @@ class Build extends AbstractTask
         }
     }
 }
+
