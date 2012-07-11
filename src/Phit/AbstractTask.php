@@ -74,6 +74,8 @@ abstract class AbstractTask extends Command
 
         $debugStyle = new OutputFormatterStyle('red', 'yellow', array('bold', 'blink'));
         $this->output->getFormatter()->setStyle('debug', $debugStyle);
+        $successStyle = new OutputFormatterStyle('white', 'green');
+        $this->output->getFormatter()->setStyle('success', $successStyle);
 
         $this->output->writeln('');
 
