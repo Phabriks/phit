@@ -144,8 +144,9 @@ class Phit
      */
     private function loadProjectConf()
     {
-        $filesystem   = new Filesystem();
-        $confFilePath = $this->projectRootDir . '/' . self::PROJECT_CONF_FILENAME;
+        $this->projectConf = false;
+        $filesystem        = new Filesystem();
+        $confFilePath      = $this->projectRootDir . '/' . self::PROJECT_CONF_FILENAME;
 
         if ($filesystem->exists(array($confFilePath))) {
             $projectConf        = json_decode(file_get_contents($confFilePath), true);
