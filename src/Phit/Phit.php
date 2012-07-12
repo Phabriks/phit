@@ -78,10 +78,17 @@ class Phit
     /**
      * Constructor
      *
+     * @param mixed $projectRootDir project root director, by default the current
+     *                              directory where the phit command is launched
+     *
      * @api
      */
-    private function __construct()
+    private function __construct($projectRootDir = false)
     {
+        if ($projectRootDir === false) {
+            $projectRootDir = getcwd();
+        }
+        $this->projectRootDir = $projectRootDir;
         $this->phitRootDir = dirname(dirname(__DIR__));
         $this->getAvailableTools();
         $this->loadProjectConf();
@@ -106,12 +113,15 @@ class Phit
     /**
      * Create new instance of class
      *
+     * @param mixed $projectRootDir project root director, by default the current
+     *                              directory where the phit command is launched
+     *
      * @return Phit
      */
-    public static function getInstance()
+    public static function getInstance($projectRootDir = false)
     {
         if (is_null(self::$instance)) {
-            self::$instance = new Phit();
+            self::$instance = new Phit($projectRootDir);
         }
 
         return self::$instance;
@@ -135,7 +145,7 @@ class Phit
     private function loadProjectConf()
     {
         $filesystem   = new Filesystem();
-        $confFilePath = getcwd() . '/' . self::PROJECT_CONF_FILENAME;
+        echo $confFilePath = $this->projectRootDir . '/' . self::PROJECT_CONF_FILENAME;
 
         if ($filesystem->exists(array($confFilePath))) {
             $projectConf        = json_decode(file_get_contents($confFilePath), true);
@@ -246,6 +256,36 @@ class Phit
             }
             $iterator->next();
         }
+    }
+
+    /**
+     * Get the application console
+     *
+     * @return \Symfony\Component\Console\Application
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+
+    /**
+     * Get Phit available models
+     *
+     * @return array
+     */
+    public function getModels()
+    {
+        return $this->models;
+    }
+
+    /**
+     * Get Phit available models
+     *
+     * @return array
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
     }
 }
 
