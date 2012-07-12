@@ -62,7 +62,7 @@ abstract class AbstractModel
     public function launchPhpunit($task, $env)
     {
         //@TODO : implement
-        $task->getPhitInstance()->output->writeln('launching phpunit build step for : ' . $env);
+        $task->getOutput()->writeln('launching phpunit build step for : ' . $env);
     }
 
     /**
@@ -76,7 +76,7 @@ abstract class AbstractModel
     public function launchCheckstyle($task, $env)
     {
         //@TODO : implement
-        $task->getPhitInstance()->output->writeln('launching checkstyle build step for : ' . $env);
+        $task->getOutput()->writeln('<comment>launching checkstyle build step for : ' . $env . '</comment>');
     }
 
     /**
@@ -90,7 +90,7 @@ abstract class AbstractModel
     public function launchMessdetection($task, $env)
     {
         //@TODO : implement
-        $task->getPhitInstance()->output->writeln('launching mess detection build step for : ' . $env);
+        $task->getOutput()->writeln('<comment>launching mess detection build step for : ' . $env . '</comment>');
     }
 
     /**
@@ -104,7 +104,7 @@ abstract class AbstractModel
     public function launchCopypastedetection($task, $env)
     {
         //@TODO : implement
-        $task->getPhitInstance()->output->writeln('launching copy paste detection build step for : ' . $env);
+        $task->getOutput()->writeln('<comment>launching copy paste detection build step for : ' . $env . '</comment>');
     }
 
 
@@ -119,7 +119,7 @@ abstract class AbstractModel
     public function launchReconfiguration($task, $env)
     {
         //@TODO : implement
-        $task->getPhitInstance()->output->writeln('launching environment reconfiguration for : ' . $env);
+        $task->getOutput()->writeln('<comment>launching environment reconfiguration for : ' . $env . '</comment>');
     }
 }
 
