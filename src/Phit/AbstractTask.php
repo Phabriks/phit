@@ -206,7 +206,7 @@ abstract class AbstractTask extends Command
         $envs = array_keys($projectConf['profiles']);
 
         if (!in_array($value, $envs)) {
-            throw new \Exception('Invalid environment value');
+            throw new \Exception('Invalid environment value : ' . $value);
         } else {
             return $value;
         }
