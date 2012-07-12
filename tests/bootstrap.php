@@ -1,12 +1,16 @@
 <?php
-
-/*
- * This file is part of the Symfony package.
+/**
+ * Phit Tests files
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * PHP VERSION 5
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @category  Phit
+ * @package   Phit.Tests
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version   SVN: $Id:$
+ * @link      http://phit.phabriks.fr
  */
 
 if (!is_readable(__DIR__.'/../vendor/autoload.php')) {
@@ -18,7 +22,6 @@ EOT;
     exit(1);
 }
 
-//composer
 $loader = require_once(__DIR__.'/../vendor/autoload.php');
 $loader->add('Phit\Tests', __DIR__);
 $loader->register();
