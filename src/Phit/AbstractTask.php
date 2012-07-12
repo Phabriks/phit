@@ -115,7 +115,22 @@ abstract class AbstractTask extends Command
         }
 
         $env = $this->input->getOption('env');
-        if (!in_array($env, $envs)) {
+        if ($env) {
+            try {
+                $env = self::validateEnv($env);
+            } catch (\Exception $error) {
+                $env = false;
+                $this->output->writeln(
+                    $this->getDialog()->getHelperSet()->get('formatter')->formatBlock(
+                        $error->getMessage(),
+                        'error',
+                        true
+                    )
+                );
+            }
+        }
+
+        if (!$env) {
             $this->output->writeln('');
             $env = $this->dialog->askAndValidate(
                 $this->output,
