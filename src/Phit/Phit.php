@@ -287,5 +287,15 @@ class Phit
     {
         return $this->tasks;
     }
+
+    /**
+     * Get Phit root directory path
+     *
+     * @return string
+     */
+    public function getPhitRootDir()
+    {
+        return $this->phitRootDir;
+    }
 }
 
