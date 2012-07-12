@@ -163,6 +163,36 @@ abstract class AbstractTask extends Command
     }
 
     /**
+     * Get command output
+     *
+     * @return OutputInterface
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    /**
+     * Get command input
+     *
+     * @return InputInterface
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    /**
+     * Get command dialog helper
+     *
+     * @return DialogHelper
+     */
+    public function getDialog()
+    {
+        return $this->dialog;
+    }
+
+    /**
      * Validate the environemnt id value
      *
      * @param string $value environment id
