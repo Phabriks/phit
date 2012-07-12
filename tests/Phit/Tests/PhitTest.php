@@ -1,37 +1,38 @@
 <?php
-
-/*
- * This file is part of the Symfony package.
+/**
+ * Phit Tests classes
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * PHP VERSION 5
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @category  Phit
+ * @package   Phit.Tests
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version   SVN: $Id:$
+ * @link      http://phit.phabriks.fr
  */
 
 namespace Phit\Tests;
 
 use Phit\Phit;
 
+/**
+ * Phit Application Test class
+ *
+ * @category  Phit
+ * @package   Phit.Tests
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ */
 class PhitTest extends \PHPUnit_Framework_TestCase
 {
-    protected static $fixturesPath;
-
-    public static function setUpBeforeClass()
-    {
-//         self::$fixturesPath = realpath(__DIR__.'/Fixtures/');
-//         require_once self::$fixturesPath.'/FooCommand.php';
-//         require_once self::$fixturesPath.'/Foo1Command.php';
-//         require_once self::$fixturesPath.'/Foo2Command.php';
-//         require_once self::$fixturesPath.'/Foo3Command.php';
-    }
-
-    protected function normalizeLineBreaks($text)
-    {
-        return str_replace(PHP_EOL, "\n", $text);
-    }
-
-    public function testConstructor()
+    /**
+     * Phit getInstance() test method
+     *
+     * @return void
+     */
+    public function testGetInstance()
     {
         $phit = Phit::getInstance();
         $this->assertEquals(
@@ -41,6 +42,11 @@ class PhitTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Phit getModels() test method
+     *
+     * @return void
+     */
     public function testGetModels()
     {
         $phit = Phit::getInstance();
@@ -51,6 +57,11 @@ class PhitTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Phit getTasks() test method
+     *
+     * @return void
+     */
     public function testGetTasks()
     {
         $tasks = array(
