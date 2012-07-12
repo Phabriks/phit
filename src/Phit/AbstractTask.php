@@ -69,7 +69,6 @@ abstract class AbstractTask extends Command
      */
     protected $dialog;
 
-
     /**
      * Executes the current command.
      *
@@ -228,7 +227,7 @@ abstract class AbstractTask extends Command
         $inString    = false;
         $jsonObj     = json_decode($json);
 
-        if ($jsonObj === true) {
+        if ($jsonObj) {
             $json = json_encode($jsonObj);
             $len  = strlen($json);
 
@@ -272,7 +271,6 @@ abstract class AbstractTask extends Command
                         if ($c > 0 && $json[$c-1] != '\\') {
                             $inString = !$inString;
                         }
-                        break;
                     default:
                         $newJson .= $char;
                         break;
