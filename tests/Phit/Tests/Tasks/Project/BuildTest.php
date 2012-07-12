@@ -19,7 +19,7 @@ use Phit\Phit;
 use Phit\Tester\TaskTester;
 
 /**
- * Validate Task Test class
+ * Project build Task Test class
  *
  * @category  Phit
  * @package   Phit.Tests
@@ -37,7 +37,7 @@ class BuildTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::$testDataDir = __DIR__ . '/../../../../data/';
+        self::$testDataDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/';
     }
 
     /**
@@ -45,16 +45,19 @@ class BuildTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function executeWithValidOptionsDataProvider()
+    public function executeWithOptionsDataProvider()
     {
         return array(
             array('goodProject', array('--env' => 'dev'), '/launching (.*) build step/'),
             array('goodProject', array('-e' => 'dev'), '/launching (.*) build step/'),
+            array('goodProject', array('--env' => 'foo'), '/Invalid environment value : foo/'),
+            array('goodProject', array('-e' => 'foo'), '/Invalid environment value : foo/'),
+            array('noProject', array('-e' => 'foo'), '/No Phit project conf file available/'),
         );
     }
 
     /**
-     * Test Validate task Execute method with valid options
+     * Test Validate task Execute method with options
      *
      * @param mixed  $projectRootDir  the path the the project root directory
      * @param array  $taskParams      the options to pass to the task
@@ -62,18 +65,23 @@ class BuildTest extends \PHPUnit_Framework_TestCase
      *                                while testing project conf file validity
      *
      * @return void
-     * @dataProvider executeWithValidOptionsDataProvider
+     * @dataProvider executeWithOptionsDataProvider
      */
-    public function testExecuteWithValidOptions($projectRootDir, $taskParams, $expectedTextMsg)
+    public function testExecuteWithOptions($projectRootDir, $taskParams, $expectedTextMsg)
     {
         $phit = Phit::getInstance();
         $phit->setProjectRootDir(self::$testDataDir . $projectRootDir);
         $task = $phit->getApplication()->get('project:build');
+        $task->getHelperSet()->get('dialog')->setInputStream($this->getInputStream(''));
 
         $taskTester = new TaskTester($task);
-        $taskTester->execute(
-            array_merge(array('command' => $task->getName()), $taskParams), array('interactive'=> true)
-        );
+        try {
+            $taskTester->execute(
+                array_merge(array('command' => $task->getName()), $taskParams), array('interactive'=> true)
+            );
+        } catch (\Exception $e) {
+
+        }
         $this->assertRegExp(
             $expectedTextMsg,
             $taskTester->getDisplay(),
@@ -82,52 +90,7 @@ class BuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Execute test method data provider
-     *
-     * @return array
-     */
-    public function executeWithInvalidOptionsDataProvider()
-    {
-        return array(
-            array('goodProject', array('--env' => 'foo'), '/Invalid environment value : foo/'),
-            array('goodProject', array('-e' => 'foo'), '/Invalid environment value : foo/'),
-        );
-    }
-
-    /**
-     * Test Validate task Execute method with invalid options
-     *
-     * @param mixed  $projectRootDir  the path the the project root directory
-     * @param array  $taskParams      the options to pass to the task
-     * @param string $expectedTextMsg part of the message that should be displayed
-     *                                while testing project conf file validity
-     *
-     * @return void
-     * @dataProvider executeWithInvalidOptionsDataProvider
-     */
-    public function testExecuteWithInvalidOptions($projectRootDir, $taskParams, $expectedTextMsg)
-    {
-        $phit = Phit::getInstance();
-        $phit->setProjectRootDir(self::$testDataDir . $projectRootDir);
-        $task = $phit->getApplication()->get('project:build');
-        $task->getDialog()->setInputStream($this->getInputStream(''));
-
-        $taskTester = new TaskTester($task);
-        try {
-            $taskTester->execute(
-                array_merge(array('command' => $task->getName()), $taskParams), array('interactive'=> false)
-            );
-        } catch (\Exception $e) {
-            $this->assertRegExp(
-                $expectedTextMsg,
-                $taskTester->getDisplay(),
-                '->execute() build the project for a given environment'
-            );
-        }
-    }
-
-    /**
-     * Execute test method data provider
+     * Execute test method data provider withtout options
      *
      * @return array
      */
@@ -137,11 +100,12 @@ class BuildTest extends \PHPUnit_Framework_TestCase
             array('goodProject', 'dev', '/launching (.*) build step/'),
             array('goodProject', 'ci', '/launching (.*) build step/'),
             array('goodProject', 'foo', '/Invalid environment value : foo/'),
+            array('noProject', '', '/No Phit project conf file available/'),
         );
     }
 
     /**
-     * Test Validate task Execute method with invalid options
+     * Test Validate task Execute method without options
      *
      * @param mixed  $projectRootDir  the path the the project root directory
      * @param string $envParam        the identifier of the environement
@@ -156,18 +120,18 @@ class BuildTest extends \PHPUnit_Framework_TestCase
         $phit = Phit::getInstance();
         $phit->setProjectRootDir(self::$testDataDir . $projectRootDir);
         $task = $phit->getApplication()->get('project:build');
-        $task->getDialog()->setInputStream($this->getInputStream($envParam));
+        $task->getHelperSet()->get('dialog')->setInputStream($this->getInputStream($envParam));
 
         $taskTester = new TaskTester($task);
         try {
             $taskTester->execute(array('command' => $task->getName()), array('interactive'=> false));
         } catch (\Exception $e) {
-            $this->assertRegExp(
-                $expectedTextMsg,
-                $taskTester->getDisplay(),
-                '->execute() build the project for a given environment'
-            );
         }
+        $this->assertRegExp(
+            $expectedTextMsg,
+            $taskTester->getDisplay(),
+            '->execute() build the project for a given environment'
+        );
     }
 
     /**
