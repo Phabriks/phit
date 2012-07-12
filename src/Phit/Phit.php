@@ -41,7 +41,7 @@ class Phit
 
     /**
      * Project configuration
-     * @var array $projectConf
+     * @var mixed $projectConf
      */
     public $projectConf = false;
 
@@ -145,7 +145,7 @@ class Phit
     private function loadProjectConf()
     {
         $filesystem   = new Filesystem();
-        echo $confFilePath = $this->projectRootDir . '/' . self::PROJECT_CONF_FILENAME;
+        $confFilePath = $this->projectRootDir . '/' . self::PROJECT_CONF_FILENAME;
 
         if ($filesystem->exists(array($confFilePath))) {
             $projectConf        = json_decode(file_get_contents($confFilePath), true);
@@ -296,6 +296,20 @@ class Phit
     public function getPhitRootDir()
     {
         return $this->phitRootDir;
+    }
+
+    /**
+     * Set the project root directory path
+     *
+     * @param string $path project root directory path
+     *
+     * @return void
+     */
+    public function setProjectRootDir($path)
+    {
+        $this->projectRootDir = $path;
+
+        $this->loadProjectConf();
     }
 }
 
