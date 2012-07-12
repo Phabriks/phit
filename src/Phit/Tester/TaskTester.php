@@ -1,12 +1,16 @@
 <?php
-
-/*
- * This file is part of the Symfony package.
+/**
+ * Phit Tester classes
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * PHP VERSION 5
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @category  Phit
+ * @package   Phit.Tester
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version   SVN: $Id:$
+ * @link      http://phit.phabriks.fr
  */
 
 namespace Phit\Tester;
@@ -17,9 +21,14 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
 
 /**
+ * Task Tester class
+ *
  * Eases the testing of console commands.
  *
- * @author Fabien Potencier <fabien@symfony.com>
+ * @category  Phit
+ * @package   Phit.Tasks
+ * @author    Guillaume Maïssa <guillaume.maissa@phabriks.com>
+ * @copyright 2012 Phabriks
  */
 class TaskTester
 {
@@ -51,7 +60,7 @@ class TaskTester
      *
      * @return integer The command exit code
      */
-    public function execute(array $input, array $options = array())
+    public function execute(array $input, array $options=array())
     {
         $this->input = new ArrayInput($input);
         if (isset($options['interactive'])) {
@@ -101,3 +110,4 @@ class TaskTester
         return $this->output;
     }
 }
+
