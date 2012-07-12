@@ -301,6 +301,8 @@ class Phit
     /**
      * Set the project root directory path
      *
+     * This is mainly useful for testing purpose.
+     *
      * @param string $path project root directory path
      *
      * @return void
