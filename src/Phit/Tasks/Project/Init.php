@@ -14,6 +14,7 @@
  */
 namespace Phit\Tasks\Project;
 
+use Phit\Phit;
 use Phit\AbstractTask;
 use Symfony\Component\Filesystem\Exception\ExceptionInterface;
 
@@ -51,7 +52,7 @@ class Init extends AbstractTask
     {
         $this->output->writeln("<info>Start initializing project</info>\n");
 
-        $projectPath = $this->dialog->askAndValidate(
+        $projectPath = $this->getDialog()->askAndValidate(
             $this->output,
             "<question>Where do you want to initialize your project (default: current location)?</question>\n",
             'Phit\Tasks\Project\Init::validateProjectInstallPath',
@@ -69,7 +70,9 @@ class Init extends AbstractTask
         fwrite($phitConfFile, $json);
         fclose($phitConfFile);
 
-        $this->output->writeln("<success>\nProject initialized\n</success>");
+        $this->output->writeln(
+            $this->getDialog()->getHelperSet()->get('formatter')->formatBlock('Project initialized', 'success', true)
+        );
     }
 
     /**
@@ -134,7 +137,7 @@ class Init extends AbstractTask
 
             $vcsReadUrl = $this->dialog->ask(
                 $this->output,
-                "<question>What will be the read url of your project\'s repository ?</question>\n",
+                "<question>What will be the read url of your project's repository ?</question>\n",
                 $vcsWriteUrl
             );
             $this->projectConf['vcs']['repositories']['read'] = $vcsReadUrl;
@@ -225,7 +228,7 @@ class Init extends AbstractTask
     public static function validateProjectInstallPath($value)
     {
         if (!is_dir($value)) {
-            throw new \Exception("Invalid installation path: directory doesn't exist");
+            throw new \Exception("Invalid installation path '$value' directory doesn't exist");
         } else {
             return $value;
         }
