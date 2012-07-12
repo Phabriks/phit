@@ -325,3 +325,4 @@ class Init extends AbstractTask
         }
     }
 }
+
