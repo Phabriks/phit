@@ -77,3 +77,4 @@ class PhitTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
+

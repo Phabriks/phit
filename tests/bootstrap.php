@@ -22,6 +22,7 @@ EOT;
     exit(1);
 }
 
-$loader = require_once(__DIR__.'/../vendor/autoload.php');
+$loader = include_once __DIR__.'/../vendor/autoload.php';
 $loader->add('Phit\Tests', __DIR__);
 $loader->register();
+

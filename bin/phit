@@ -14,11 +14,12 @@
  * @link      http://phit.phabriks.fr
  */
 if (file_exists('Phit/vendor/autoload.php')) {
-    require 'Phit/vendor/autoload.php';
+    include_once 'Phit/vendor/autoload.php';
 } else {
-    require __DIR__ . '/../vendor/autoload.php';
+    include_once __DIR__ . '/../vendor/autoload.php';
 }
 use Phit\Phit;
 
 $phit = Phit::getInstance();
-$phit->run(); 
+$phit->run();
+

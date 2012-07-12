@@ -47,6 +47,7 @@ class ValidateTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $path            the path the the project root directory
      * @param string $expectedTextMsg part of the message that should be displayed
      *                                while testing project conf file validity
+     *
      * @return void
      * @dataProvider executeDataProvider
      */
@@ -65,3 +66,4 @@ class ValidateTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
+
