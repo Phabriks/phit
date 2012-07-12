@@ -57,12 +57,23 @@ class Build extends AbstractTask
         $this->output->writeln('<info>Start building project</info>');
         $projectConf = $this->phitInstance->projectConf;
 
-        // retrieve the environment option
-        $this->getEnvOption();
+        if ($projectConf !== false) {
+            // retrieve the environment option
+            $this->getEnvOption();
 
-        foreach ($projectConf['build']['steps'] as $step) {
-            $stepMethod = 'launch' . ucfirst($step);
-            $this->phitInstance->projectModel->$stepMethod($this, $this->getEnv());
+            foreach ($projectConf['build']['steps'] as $step) {
+                $stepMethod = 'launch' . ucfirst($step);
+                $this->phitInstance->projectModel->$stepMethod($this, $this->getEnv());
+            }
+
+        } else {
+            $this->output->writeln(
+                $this->getDialog()->getHelperSet()->get('formatter')->formatBlock(
+                    'No Phit project conf file available',
+                    'error',
+                    true
+                )
+            );
         }
     }
 }
