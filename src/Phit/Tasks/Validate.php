@@ -63,13 +63,18 @@ class Validate extends AbstractTask
         );
 
         if ($validator->isValid()) {
-            $this->output->writeln("<success>\nThe supplied JSON validates against the schema.\n</success>");
+            $msg= 'The supplied JSON validates against the schema.';
+            $this->output->writeln(
+                $this->getDialog()->getHelperSet()->get('formatter')->formatBlock($msg, 'success', true)
+            );
         } else {
-            $errorMsg = "\nJSON does not validate. Violations:\n";
+            $errorMsg[] = "JSON does not validate. Violations:";
             foreach ($validator->getErrors() as $error) {
-                $errorMsg .= sprintf("[%s] %s", $error['property'], $error['message']) . "\n";
+                $errorMsg[] = sprintf("[%s] %s", $error['property'], $error['message']);
             }
-            $this->output->writeln("<error>". $errorMsg ."</error>");
+            $this->output->writeln(
+                $this->getDialog()->getHelperSet()->get('formatter')->formatBlock($errorMsg, 'error', true)
+            );
         }
     }
 }
