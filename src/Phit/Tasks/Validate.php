@@ -59,7 +59,7 @@ class Validate extends AbstractTask
         $validator = new Validator();
         $validator->check(
             json_decode(json_encode($projectConf)),
-            json_decode(file_get_contents(dirname(__DIR__) . '/phit.json.schema'))
+            json_decode(file_get_contents($this->phitInstance->getPhitRootDir() . '/res/phit-schema.json'))
         );
 
         if ($validator->isValid()) {
