@@ -14,7 +14,10 @@
  */
 namespace Phit;
 
+use Phit\Helpers\JsonHelper;
+use Phit\Exceptions\HelperException;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -38,6 +41,12 @@ class Phit
      * @var string $phitRootDir
      */
     protected $phitRootDir = false;
+
+    /**
+     * Project root directory
+     * @var string $projectRootDir
+     */
+    protected $projectRootDir = false;
 
     /**
      * Project configuration
@@ -64,6 +73,12 @@ class Phit
     private $application = false;
 
     /**
+     * Console Output
+     * @var mixed $output
+     */
+    private $output = false;
+
+    /**
      * List of available tasks
      * @var array $tasks
      */
@@ -88,11 +103,12 @@ class Phit
         if ($projectRootDir === false) {
             $projectRootDir = getcwd();
         }
+        $this->output         = new ConsoleOutput();
         $this->projectRootDir = $projectRootDir;
-        $this->phitRootDir = dirname(dirname(__DIR__));
+        $this->phitRootDir    = dirname(dirname(__DIR__));
+        $this->application    = new Application('Phit', '1.0.0');
+
         $this->getAvailableTools();
-        $this->loadProjectConf();
-        $this->application = new Application('Phit', '1.0.0');
 
         foreach ($this->tasks as $taskName) {
             $task = new $taskName;
@@ -107,6 +123,8 @@ class Phit
      */
     public function run()
     {
+        $this->loadProjectConf();
+
         return $this->application->run();
     }
 
@@ -147,13 +165,26 @@ class Phit
         $this->projectConf = false;
         $filesystem        = new Filesystem();
         $confFilePath      = $this->projectRootDir . '/' . self::PROJECT_CONF_FILENAME;
+        $jsonSchema        = $this->getPhitRootDir() . '/res/phit-schema.json';
 
         if ($filesystem->exists(array($confFilePath))) {
-            $projectConf        = json_decode(file_get_contents($confFilePath), true);
-            $projectModel       = $projectConf['model'];
-            $projectModelClass  = $this->models[$projectModel];
-            $this->projectModel = new $projectModelClass;
-            $this->projectConf  = $projectConf;
+            try {
+                JsonHelper::validateFile($confFilePath, $jsonSchema);
+                $projectConf        = json_decode(file_get_contents($confFilePath), true);
+                $projectModel       = $projectConf['model'];
+                $projectModelClass  = $this->models[$projectModel];
+                $this->projectModel = new $projectModelClass;
+                $this->projectConf  = $projectConf;
+
+            } catch (HelperException $e) {
+                $this->output->writeln(
+                    $this->application->getHelperSet()->get('formatter')->formatBlock(
+                        explode("\n", $e->getMessage()),
+                        'error',
+                        true
+                    )
+                );
+            }
         }
     }
 
@@ -313,6 +344,30 @@ class Phit
         $this->projectRootDir = $path;
 
         $this->loadProjectConf();
+    }
+
+    /**
+     * Get Project root directory path
+     *
+     * @return string
+     */
+    public function getProjectRootDir()
+    {
+        return $this->projectRootDir;
+    }
+
+    /**
+     * Set Phit Output Stream
+     *
+     * This is mainly useful for testing purpose.
+     *
+     * @param \Symfony\Component\Console\Output\StreamOutput $outputStream Output Stream
+     *
+     * @return void
+     */
+    public function setOutputStream(\Symfony\Component\Console\Output\StreamOutput $outputStream)
+    {
+        $this->output = $outputStream;
     }
 }
 

@@ -16,6 +16,8 @@ namespace Phit\Tasks;
 
 use Phit\Phit;
 use Phit\AbstractTask;
+use Phit\Helpers\JsonHelper;
+use Phit\Exceptions\HelperException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,9 +44,14 @@ class Validate extends AbstractTask
     protected function configure()
     {
         $this
-        ->setName('validate')
-        ->setDescription('Validate phit.jon project configuration file')
-        ;
+            ->setName('validate')
+            ->setDescription('Validate phit.jon project configuration file')
+            ->addOption(
+                'file',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Path of the Phit configuration file you want to validate'
+            );
     }
 
     /**
@@ -56,24 +63,25 @@ class Validate extends AbstractTask
     {
         $this->output->writeln("<info>Start validating phit conf file</info>\n");
         $projectConf = $this->phitInstance->projectConf;
-        $validator = new Validator();
-        $validator->check(
-            json_decode(json_encode($projectConf)),
-            json_decode(file_get_contents($this->phitInstance->getPhitRootDir() . '/res/phit-schema.json'))
-        );
+        $jsonFile   = $this->input->getOption('file');
+        if (!$jsonFile) {
+            $jsonFile   = $this->phitInstance->getProjectRootDir() . '/' . Phit::PROJECT_CONF_FILENAME;
+        }
+        $jsonSchema = $this->phitInstance->getPhitRootDir() . '/res/phit-schema.json';
 
-        if ($validator->isValid()) {
+        try {
+            JsonHelper::validateFile($jsonFile, $jsonSchema);
             $msg= 'The supplied JSON validates against the schema.';
             $this->output->writeln(
                 $this->getDialog()->getHelperSet()->get('formatter')->formatBlock($msg, 'success', true)
             );
-        } else {
-            $errorMsg[] = "JSON does not validate. Violations:";
-            foreach ($validator->getErrors() as $error) {
-                $errorMsg[] = sprintf("[%s] %s", $error['property'], $error['message']);
-            }
+        } catch (HelperException $e) {
             $this->output->writeln(
-                $this->getDialog()->getHelperSet()->get('formatter')->formatBlock($errorMsg, 'error', true)
+                $this->getDialog()->getHelperSet()->get('formatter')->formatBlock(
+                    explode("\n", $e->getMessage()),
+                    'error',
+                    true
+                )
             );
         }
     }
