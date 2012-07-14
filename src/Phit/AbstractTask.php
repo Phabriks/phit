@@ -271,6 +271,7 @@ abstract class AbstractTask extends Command
                         if ($c > 0 && $json[$c-1] != '\\') {
                             $inString = !$inString;
                         }
+                        // it should also use default treatment
                     default:
                         $newJson .= $char;
                         break;

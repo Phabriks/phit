@@ -60,7 +60,7 @@ class TaskTester
      *
      * @return integer The command exit code
      */
-    public function execute(array $input, array $options=array())
+    public function execute(array $input, array $options = array())
     {
         $this->input = new ArrayInput($input);
         if (isset($options['interactive'])) {

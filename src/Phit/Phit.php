@@ -98,7 +98,7 @@ class Phit
      *
      * @api
      */
-    private function __construct($projectRootDir=false)
+    private function __construct($projectRootDir = false)
     {
         if ($projectRootDir === false) {
             $projectRootDir = getcwd();
@@ -136,7 +136,7 @@ class Phit
      *
      * @return Phit
      */
-    public static function getInstance($projectRootDir=false)
+    public static function getInstance($projectRootDir = false)
     {
         if (is_null(self::$instance)) {
             self::$instance = new Phit($projectRootDir);

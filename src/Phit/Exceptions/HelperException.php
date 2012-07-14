@@ -24,6 +24,5 @@ namespace Phit\Exceptions;
  */
 class HelperException extends \Exception
 {
-
 }
 
