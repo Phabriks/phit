@@ -16,6 +16,7 @@
 namespace Phit\Tests\Tasks\Project;
 
 use Phit\Phit;
+use Phit\Tester\PhitTester;
 use Phit\Tester\TaskTester;
 
 /**
@@ -64,6 +65,10 @@ class InitTest extends \PHPUnit_Framework_TestCase
                 '/Project initialized/'
             ),
             array(
+                array('noProject', 'TestProject', 'ezpublish-ce', 'y', 'svn', '', '', 'n', 'n', 'n', 'n'),
+                '/Project initialized/'
+            ),
+            array(
                 array('fakeProject'),
                 "/Invalid installation path '(.*)' directory doesn't exist/"
             ),
@@ -74,10 +79,6 @@ class InitTest extends \PHPUnit_Framework_TestCase
             array(
                 array('noProject', 'TestProject', 'ezpublish-ce', 'y', 'cvs'),
                 "/Invalid VCS type/"
-            ),
-            array(
-                array('noProject', 'TestProject', 'ezpublish-ce', 'y', 'svn', '', '', 'n', 'n', 'n', 'n'),
-                '/Project initialized/'
             )
         );
     }
@@ -97,9 +98,11 @@ class InitTest extends \PHPUnit_Framework_TestCase
         $inputsString = self::$testDataDir . implode("\n", $inputs) ."\n\n";
 
         $phit = Phit::getInstance();
-        $phit->setProjectRootDir(self::$testDataDir . 'noProject');
         $task = $phit->getApplication()->get('project:init');
         $task->getHelperSet()->get('dialog')->setInputStream($this->getInputStream($inputsString));
+
+        $phitTester = new PhitTester($phit);
+        $phitTester->setProjectRootDir(self::$testDataDir . 'noProject');
 
         $taskTester = new TaskTester($task);
         try {
@@ -108,13 +111,14 @@ class InitTest extends \PHPUnit_Framework_TestCase
             );
             $phitConfFile = self::$testDataDir . array_shift($inputs) . '/' . \Phit\Phit::PROJECT_CONF_FILENAME;
             unlink($phitConfFile);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
+            //Catch is empty as assertion code is the same with or without exceptions
         }
 
         $this->assertRegExp(
-                $expectedTextMsg,
-                $taskTester->getDisplay(),
-                '->execute() build the project for a given environment'
+            $expectedTextMsg,
+            $taskTester->getDisplay(),
+            '->execute() build the project for a given environment'
         );
     }
 

@@ -16,6 +16,7 @@
 namespace Phit\Tests\Tasks\Project;
 
 use Phit\Phit;
+use Phit\Tester\PhitTester;
 use Phit\Tester\TaskTester;
 
 /**
@@ -70,16 +71,18 @@ class BuildTest extends \PHPUnit_Framework_TestCase
     public function testExecuteWithOptions($projectRootDir, $taskParams, $expectedTextMsg)
     {
         $phit = Phit::getInstance();
-        $phit->setProjectRootDir(self::$testDataDir . $projectRootDir);
         $task = $phit->getApplication()->get('project:build');
         $task->getHelperSet()->get('dialog')->setInputStream($this->getInputStream(''));
+
+        $phitTester = new PhitTester($phit);
+        $phitTester->setProjectRootDir(self::$testDataDir . $projectRootDir);
 
         $taskTester = new TaskTester($task);
         try {
             $taskTester->execute(
                 array_merge(array('command' => $task->getName()), $taskParams), array('interactive'=> true)
             );
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
 
         }
         $this->assertRegExp(
@@ -118,14 +121,16 @@ class BuildTest extends \PHPUnit_Framework_TestCase
     public function testExecuteWithoutOptions($projectRootDir, $envParam, $expectedTextMsg)
     {
         $phit = Phit::getInstance();
-        $phit->setProjectRootDir(self::$testDataDir . $projectRootDir);
         $task = $phit->getApplication()->get('project:build');
         $task->getHelperSet()->get('dialog')->setInputStream($this->getInputStream($envParam));
+
+        $phitTester = new PhitTester($phit);
+        $phitTester->setProjectRootDir(self::$testDataDir . $projectRootDir);
 
         $taskTester = new TaskTester($task);
         try {
             $taskTester->execute(array('command' => $task->getName()), array('interactive'=> false));
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
         }
         $this->assertRegExp(
             $expectedTextMsg,

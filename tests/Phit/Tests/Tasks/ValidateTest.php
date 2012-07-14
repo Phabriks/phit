@@ -16,6 +16,7 @@
 namespace Phit\Tests\Tasks;
 
 use Phit\Phit;
+use Phit\Tester\PhitTester;
 use Phit\Tester\TaskTester;
 
 /**
@@ -35,9 +36,38 @@ class ValidateTest extends \PHPUnit_Framework_TestCase
      */
     public function executeDataProvider()
     {
+        $testDataDirPath = __DIR__ . "/../../../data/";
         return array(
-            array(__DIR__ . '/../../../data/goodProject', '/The supplied JSON validates against the schema./'),
-            array(__DIR__ . '/../../../data/badProject', '/JSON does not validate. Violations:/'),
+            array(
+                $testDataDirPath . "goodProject",
+                array(),
+                "/The supplied JSON validates against the schema./"
+            ),
+            array(
+                $testDataDirPath . "badProject",
+                array('--file' => $testDataDirPath . 'goodProject/phit.json'),
+                "/The supplied JSON validates against the schema./"
+            ),
+            array(
+                $testDataDirPath . "badProject",
+                array(),
+                "/Json file '(.*)' does not validate. Violations:/"
+            ),
+            array(
+                $testDataDirPath . "goodProject",
+                array('--file' => $testDataDirPath . 'badProject/phit.json'),
+                "/Json file '(.*)' does not validate. Violations:/"
+            ),
+            array(
+                $testDataDirPath . "noProject",
+                array(),
+                "/Json file '(.*)' does not exist/"
+            ),
+            array(
+                $testDataDirPath . "goodProject",
+                array('--file' => $testDataDirPath . 'noProject/phit.json'),
+                "/Json file '(.*)' does not exist/"
+            ),
         );
     }
 
@@ -45,25 +75,41 @@ class ValidateTest extends \PHPUnit_Framework_TestCase
      * Test Validate task Execute method
      *
      * @param mixed  $path            the path the the project root directory
+     * @param array  $taskParams      the options to pass to the task
      * @param string $expectedTextMsg part of the message that should be displayed
      *                                while testing project conf file validity
      *
      * @return void
      * @dataProvider executeDataProvider
      */
-    public function testExecute($path, $expectedTextMsg)
+    public function testExecute($path, $taskParams, $expectedTextMsg)
     {
-        $phit = Phit::getInstance();
-        $phit->setProjectRootDir($path);
-        $task = $phit->getApplication()->get('validate');
+        try {
+            $phit = Phit::getInstance();
+            $task = $phit->getApplication()->get('validate');
+            $phitTester = new PhitTester($phit);
+            $phitTester->setProjectRootDir($path);
 
-        $taskTester = new TaskTester($task);
-        $taskTester->execute(array('command' => $task->getName()));
+            $taskTester = new TaskTester($task);
+            $taskTester->execute(array_merge(array('command' => $task->getName()), $taskParams));
+        } catch (\Phit\Exceptions\HelperException $e) {
+
+        }
         $this->assertRegExp(
             $expectedTextMsg,
             $taskTester->getDisplay(),
             '->execute() validate the Phit project configuration file'
         );
+    }
+
+    /**
+     * Get the output stream
+     *
+     * @return StreamOutput
+     */
+    protected function getOutputStream()
+    {
+        return new StreamOutput(fopen('php://memory', 'r+', false));
     }
 }
 
