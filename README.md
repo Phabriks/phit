@@ -13,7 +13,7 @@ PHP 5.3+
 Authors
 -------
 
-Guillaume Maïssa - <guillaume.maissa@phabriks.com>
+Guillaume Maïssa
 
 See also the list of [contributors](https://github.com/phit-project/phit/contributors) who participated in this project.
 
