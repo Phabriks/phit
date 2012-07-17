@@ -170,16 +170,16 @@ class Init extends AbstractTask
         }
 
         $useCPDBuildStep = $this->dialog->askConfirmation(
-                $this->output,
-                "<question>Do you want to use Copy Paste Detection on your code ? [yes,no]</question>\n"
+            $this->output,
+            "<question>Do you want to use Copy Paste Detection on your code ? [yes,no]</question>\n"
         );
         if ($useCPDBuildStep) {
             $this->projectConf['build']['steps'][] = 'copypastedetection';
         }
 
         $usePUnitBuildStep = $this->dialog->askConfirmation(
-                $this->output,
-                "<question>Are you going to write PHP Unit tests for your code ? [yes,no]</question>\n"
+            $this->output,
+            "<question>Are you going to write PHP Unit tests for your code ? [yes,no]</question>\n"
         );
         if ($usePUnitBuildStep) {
             $this->projectConf['build']['steps'][] = 'phpunit';
