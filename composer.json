@@ -1,5 +1,5 @@
 {
-    "name": "phabriks/phit",
+    "name": "phit-project/phit",
     "require": {
         "symfony/console": "dev-master",
         "symfony/filesystem": "dev-master",
