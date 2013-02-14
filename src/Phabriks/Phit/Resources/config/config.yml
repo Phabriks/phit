@@ -1,0 +1,18 @@
+# List of console commands and subcommands available in the core package
+commands:
+    project:
+        subcommands:
+            init:
+                class: Phabriks\Phit\Command\Project\Init
+
+            build:
+                class: Phabriks\Phit\Command\Project\Build
+
+
+# List of project models available in the core package
+projectmodels:
+    ezpublish:
+        class: Phabriks\Phit\ProjectModel\EZPublish
+
+    magento:
+        class: Phabriks\Phit\ProjectModel\Magento

@@ -1,0 +1,66 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "version": {
+      "type": "string",
+      "required": true
+    },
+    "model": {
+      "type": "string",
+      "required": true
+    },
+    "vcs": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "repositories": {
+          "type": "object",
+          "properties": {
+            "write": {
+              "type": "string"
+            },
+            "read": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "required": true,
+          "items": {
+            "enum": [
+              "checkstyle",
+              "messdetection",
+              "copypastedetection",
+              "phpunit"
+            ]
+          }
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "required": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "suffix": { "type": "string" },
+          "connection": { "type":"string", "optional": false },
+          "srcpath": { "type":"string", "optional": true }
+        }
+      }
+    }
+  }
+}

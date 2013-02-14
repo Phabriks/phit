@@ -1,0 +1,6 @@
+projectmodels:
+    - ezpublish:
+        class: Phabriks\Phit\ProjectModel\EZPublish
+
+    - magento:
+        class: Phabriks\Phit\ProjectModel\Magento

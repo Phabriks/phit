@@ -1,0 +1,36 @@
+{
+    "commands": {
+        "project": {
+            "subcommands": {
+                "init": {
+                    "class": "Phabriks\\Phit\\Command\\Project\\Init"
+                },
+                "build": {
+                    "class": "Phabriks\\Phit\\Command\\Project\\Build"
+                }
+            }
+        }
+    },
+    "models": {
+        "ezpublish": {
+            "submodels": {
+                "community": {
+                    "class": "Phabriks\\Phit\\ProjectModel\\EZPublish\\Community"
+                },
+                "enterprise": {
+                    "class": "Phabriks\\Phit\\ProjectModel\\EZPublish\\Enterprise"
+                }
+            }
+        },
+        "magento": {
+            "submodels": {
+                "community": {
+                    "class": "Phabriks\\Phit\\ProjectModel\\Magento\\Community"
+                },
+                "enterprise": {
+                    "class": "Phabriks\\Phit\\ProjectModel\\Magento\\Enterprise"
+                }
+            }
+        }
+    }
+}

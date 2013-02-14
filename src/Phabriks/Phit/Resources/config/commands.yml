@@ -1,0 +1,7 @@
+commands:
+    - project:
+        subcommands:
+            - init:
+                class: Phabriks\Phit\Command\Project\Init
+            - build:
+                class: Phabriks\Phit\Command\Project\Build

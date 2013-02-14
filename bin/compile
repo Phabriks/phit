@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+/**
+* Phit Core files
+*
+* PHP VERSION 5
+*
+* @category Phit
+* @package Phit.Core
+* @author Guillaume Maïssa <guillaume.maissa@phabriks.com>
+* @copyright 2013 Phabriks
+* @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+* @version SVN: $Id:$
+* @link http://phit.phabriks.fr
+*/
+require __DIR__.'/../src/bootstrap.php';
+
+use Phabriks\Phit\Compiler;
+
+error_reporting(-1);
+ini_set('display_errors', 1);
+
+$compiler = new Compiler();
+$compiler->compile();

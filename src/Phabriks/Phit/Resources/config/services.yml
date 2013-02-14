@@ -1,0 +1,24 @@
+parameters:
+    phit.json.config.file: config.json
+    phit.yaml.config.file: config.yml
+    phit.project.json.config.file: phit.json
+
+services:
+    phit.config.file:
+        class:     Phabriks\Phit\Config\JsonFile
+        arguments: [%phit.json.config.file%]
+    phit.config:
+        class:     Phabriks\Phit\Config
+        arguments: [@phit.config.file]
+    phit:
+        class:     Phabriks\Phit\Phit
+        arguments: [@phit.config]
+    phit.project.config.file:
+        class:     Phabriks\Phit\Project\JsonFile
+        arguments: [%phit.project.json.config.file%]
+    phit.project.config:
+        class:     Phabriks\Phit\Project\Config
+        arguments: [@phit.project.config.file]
+    phit.project:
+        class:     Phabriks\Phit\Project
+        arguments: [@phit, @phit.project.config]

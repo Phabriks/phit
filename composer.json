@@ -1,0 +1,41 @@
+{
+    "name": "phabriks/phit",
+    "description": "PHP Industrialization Tool",
+    "version": "1.0.0-dev",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guillaume Maïssa",
+            "email": "guillaume.maissa@phabriks.fr",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "composer/composer": "@dev",
+        "symfony/console": "@dev",
+        "symfony/dependency-injection": "@dev",
+        "symfony/config": "@dev",
+        "symfony/finder": "@dev",
+        "symfony/process": "@dev",
+        "symfony/filesystem": "@dev",
+        "seld/jsonlint": "1.1.*",
+        "justinrainbow/json-schema": "1.1.*",
+        "phpunit/phpunit": "@dev",
+        "squizlabs/php_codesniffer": "@dev",
+        "phpmd/phpmd": "@dev"
+    },
+    "require-dev": {
+        "pdepend/pdepend" : "1.1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Phabriks\\Phit": "src"
+        }
+    },
+    "target-dir": "Phabriks/Phit",
+    "bin": ["bin/phit"],
+    "config": {
+        "bin-dir": "bin"
+    }
+}
