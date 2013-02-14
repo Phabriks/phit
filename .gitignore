@@ -1,5 +1,9 @@
-vendor
-composer.lock
-.buildpath
-.project
-.settings
+/phit.phar
+/vendor
+/projects
+/bin/composer
+/bin/jsonlint
+/bin/pdepend
+/bin/phpcs
+/bin/phpmd
+/bin/phpunit
